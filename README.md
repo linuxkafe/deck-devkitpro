@@ -1,5 +1,8 @@
 # DevKitPro Deck
 
+[![](https://img.shields.io/github/stars/linuxkafe/deck-devkitpro.svg?style=social)](https://github.com/linuxkafe/deck-devkitpro)
+[![CI](https://github.com/linuxkafe/deck-devkitpro/actions/workflows/ci.yml/badge.svg)](https://github.com/linuxkafe/deck-devkitpro/actions)
+
 [Decky Loader](https://decky.xyz) plugin to control the **devkitpro** toolchain
 on the Steam Deck. devkitpro runs inside a rootless podman container and
 exposes a **Model Context Protocol (MCP) server** that this OpenCode session
