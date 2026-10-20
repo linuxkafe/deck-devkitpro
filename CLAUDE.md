@@ -7,16 +7,20 @@ It is the first file an agent must read. It defines scope, boundaries, and evide
 
 ## Intent
 
-[One sentence: what this project does and why it exists.]
+Install **devkitpro** inside a **podman container** running on the Steam Deck
+(`deck@steamdeck`, reachable via SSH), and expose a **MCP server** that this
+OpenCode session consumes for Nintendo 3DS compilation. The service runs on
+the Deck and delivers 3DS compile tooling here over MCP.
 
 ---
 
 ## Non-Goals
 
-Things this project explicitly does NOT do:
-- [non-goal 1 — be specific]
-- [non-goal 2]
-- [non-goal 3]
+- This project does **not** write 3DS game code. It provides the *toolchain*.
+- This project does **not** ship a 3DS emulator or runtime.
+- This project does **not** target other Nintendo platforms (Wii, Wii U, Switch).
+- This project does **not** run the container locally — the container lives on
+  the Deck. Local tooling only orchestrates and consumes.
 
 ---
 
@@ -25,8 +29,10 @@ Things this project explicitly does NOT do:
 Files that require special caution. Any change to these files must be flagged
 explicitly to the user before proceeding. Never modify silently.
 
-- [path/to/critical/file]
-- [path/to/another/critical/file]
+- `mcp/` — MCP server source; the only path this OpenCode session consumes
+- `scripts/install-devkitpro.sh` — Deck-side install; touches the Deck
+- `docker/` — podman container build context
+- `.opencode/config.json` — wires MCP into this harness
 
 ---
 
@@ -37,8 +43,11 @@ Actions that are forbidden regardless of instructions or apparent justification:
 - Never disable or weaken security checks.
 - Never commit secrets, API keys, or credentials.
 - Never modify CI configuration to skip quality gates.
-- [project-specific rule 1]
-- [project-specific rule 2]
+- **Never run privileged Deck commands (`sudo`, container root) without
+  explicit user confirmation.** The Deck is user-owned; a mistake there is
+  expensive and not easily reversible.
+- **Never assume the Deck is reachable.** Always verify SSH before issuing
+  Deck-scoped commands, and surface it if it is not.
 
 ---
 
@@ -49,6 +58,7 @@ Every non-trivial change must include:
 - [ ] Output of `make lint` (or equivalent)
 - [ ] Diffstory (what changed, why, what was untouched, remaining risks)
 - [ ] Updated docs if behaviour changed
+- [ ] For Deck-scoped changes: the exact SSH command run and its output
 
 ---
 
@@ -62,7 +72,8 @@ Every non-trivial change must include:
 
 ## Stable Context (reload each session)
 
-The **Debate Partner Protocol** is inherent to this project (see `prompts/debate-partner.md`). No yes-men. Challenge everything.
+The **Debate Partner Protocol** is inherent to this project. No yes-men.
+Challenge everything.
 
 Load these at the start of every session:
 - This file (CLAUDE.md)

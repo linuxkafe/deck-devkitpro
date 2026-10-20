@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "devkitpro": {
+        "type": "local",
+        "command": [
+          "ssh",
+          "-o", "StrictHostKeyChecking=no",
+          "-o", "BatchMode=yes",
+          "-o", "LogLevel=ERROR",
+          "deck@steamdeck",
+          "/home/deck/.deck-mcp-venv/bin/python3",
+          "/home/deck/mcp/server.py"
+        ],
+        "environment": {
+          "DKP_IMAGE": "docker.io/devkitpro/devkitarm"
+        },
+        "codemode": false
+      }
+    }
+  }
+}

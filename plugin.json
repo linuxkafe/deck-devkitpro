@@ -1,0 +1,10 @@
+{
+  "name": "DevKitPro Deck",
+  "author": "seyon",
+  "api_version": 1,
+  "flags": [],
+  "publish": {
+    "tags": ["devkitpro", "3ds", "nintendo", "dev", "utility", "toolchain"],
+    "description": "Controla o serviço devkitpro no Steam Deck: liga/desliga on demand, mostra estado da toolchain e informação do container podman."
+  }
+}

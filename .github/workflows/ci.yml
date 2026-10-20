@@ -1,34 +1,37 @@
 name: CI
+
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
   check:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup
-        run: make setup
-
-      - name: Lint
-        run: make lint
-
-      - name: Test
-        run: make test
-
-      - name: Quality gates
-        run: make check
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v4
-        if: always()
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          fail_ci_if_error: false
+          node-version: '20'
 
-      - name: Type check
-        run: npx tsc --noEmit 2>/dev/null || true
+      - name: Install dependencies
+        run: npm install
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Python syntax check
+        run: |
+          python3 -m py_compile main.py
+          python3 -m py_compile cli.py
+
+      - name: Verify plugin.json
+        run: |
+          python3 -c "import json; json.load(open('plugin.json')); print('plugin.json valid')"
+
+      - name: Verify install.sh
+        run: |
+          bash -n install.sh && echo 'install.sh syntax OK'

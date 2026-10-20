@@ -1,18 +1,31 @@
-node_modules/
+# DevKitPro Deck — Decky plugin for devkitpro control on Steam Deck
+# See README.md for full documentation.
+
+# Python
 __pycache__/
-*.pyc
-.coverage
-coverage.xml
-coverage.out
-target/
-dist/
+*.py[cod]
+*.egg-info/
+*.egg
+.eggs/
 build/
-.venv/
-env/
-.idea/
+dist/
+*.whl
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Editor
 .vscode/
-*.log
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
-.tmp/
-aes/verification/
-.llm_venv/
+Thumbs.db
+
+# Env
+.env
+*.local
