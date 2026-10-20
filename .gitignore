@@ -29,3 +29,12 @@ Thumbs.db
 # Env
 .env
 *.local
+# AES project tracking (not for public repo)
+aes/
+.aes/
+
+# Local artifacts
+__pycache__/
+*.pyc
+node_modules/
+dist/
