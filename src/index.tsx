@@ -29,6 +29,15 @@ type ToolchainInfo = {
   error: string;
 };
 
+type DebugStatus = {
+  azahar_present: boolean;
+  azahar_path: string;
+  sdmc_exists: boolean;
+  sdmc_path: string;
+  xauth_present: boolean;
+  ok: boolean;
+};
+
 const StatusRow = ({ label, value }: { label: string; value: boolean }) => (
   <PanelSectionRow>
     <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -43,11 +52,19 @@ export default definePlugin(() => {
   const [toolchain, setToolchain] = useState<ToolchainInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [pulling, setPulling] = useState(false);
+  const [debug, setDebug] = useState<DebugStatus | null>(null);
+  const [configuring, setConfiguring] = useState(false);
 
   const refresh = async () => {
     try {
       const s = await callable<[], Status>("get_status")();
       setStatus(s);
+      try {
+        const d = await callable<[], DebugStatus>("debug_status")();
+        setDebug(d);
+      } catch {
+        // ignore
+      }
       if (s.image_present) {
         const t = await callable<[], ToolchainInfo>("toolchain_info")();
         setToolchain(t);
@@ -79,6 +96,23 @@ export default definePlugin(() => {
       toaster.toast({ title: t("errors.pull"), content: String(err), priority: "error" });
     } finally {
       setPulling(false);
+    }
+  };
+
+  const handleConfigureDebug = async () => {
+    setConfiguring(true);
+    try {
+      const result = await callable<[], { ok: boolean; message?: string; error?: string }>("configure_debug")();
+      if (result.ok) {
+        toaster.toast({ title: "Debug", content: result.message || "Configured", priority: "success" });
+        await refresh();
+      } else {
+        toaster.toast({ title: "Debug", content: result.error || "Failed", priority: "error" });
+      }
+    } catch (err) {
+      toaster.toast({ title: "Debug", content: String(err), priority: "error" });
+    } finally {
+      setConfiguring(false);
     }
   };
 
@@ -133,6 +167,33 @@ export default definePlugin(() => {
           >
             <FaDownload size={14} />
             {pulling ? t("actions.pulling") : t("actions.pull")}
+          </button>
+        </PanelSectionRow>
+      </PanelSection>
+
+      <PanelSection title="Debug (headless)">
+        <StatusRow label="Azahar" value={!!debug?.azahar_present} />
+        <StatusRow label="SD card path" value={!!debug?.sdmc_exists} />
+        <StatusRow label="X authority" value={!!debug?.xauth_present} />
+        <PanelSectionRow>
+          <button
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "8px 16px",
+              background: "#3b82f6",
+              color: "#fff",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: 500,
+            }}
+            onClick={handleConfigureDebug}
+            disabled={configuring}
+          >
+            {configuring ? "Configuring..." : "Configure debug"}
           </button>
         </PanelSectionRow>
       </PanelSection>

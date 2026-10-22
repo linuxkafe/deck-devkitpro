@@ -347,6 +347,24 @@ async def debug_headless(rom_path: str, frames: int = 120, timeout: int = 180) -
 
 
 
+@mcps.tool(
+    name="debug_status",
+    description="Check headless debug dependencies on the Deck: Azahar emulator, SD card path, X authority.",
+)
+async def debug_status() -> str:
+    import glob
+    azahar_ok = os.path.exists(AZAHAR) and os.access(AZAHAR, os.X_OK)
+    sdmc_ok = os.path.isdir(SDMC)
+    xauths = glob.glob("/run/user/1000/xauth_*")
+    lines = [
+        f"azahar: {'ok' if azahar_ok else 'MISSING'} ({AZAHAR})",
+        f"sdmc: {'ok' if sdmc_ok else 'MISSING'} ({SDMC})",
+        f"xauth: {'ok' if xauths else 'MISSING'}",
+    ]
+    return "\n".join(lines)
+
+
+
 # ── Entry point ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     # Ensure unbuffered output for MCP stdio transport

@@ -112,6 +112,32 @@ echo "STATUS=OK"
     }
 
 
+def debug_status() -> dict:
+    """Check debug (headless emulator) dependencies on the Deck."""
+    import glob
+    azahar = "/home/deck/Applications/squashfs-root/usr/bin/azahar"
+    sdmc = "/run/media/mmcblk0p1/Emulation/storage/azahar/sdmc"
+    xauths = glob.glob("/run/user/1000/xauth_*")
+    return {
+        "azahar_present": os.path.exists(azahar) and os.access(azahar, os.X_OK),
+        "azahar_path": azahar,
+        "sdmc_exists": os.path.isdir(sdmc),
+        "sdmc_path": sdmc,
+        "xauth_present": len(xauths) > 0,
+        "ok": os.path.exists(azahar) and os.path.isdir(sdmc),
+    }
+
+
+def configure_debug() -> dict:
+    """Create SD card directories needed by the headless debug gate."""
+    sdmc = "/run/media/mmcblk0p1/Emulation/storage/azahar/sdmc"
+    try:
+        os.makedirs(sdmc, exist_ok=True)
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+    return {"ok": True, "sdmc": sdmc, "message": "Debug SD directory ready"}
+
+
 def get_status() -> dict:
     """Get full service status for the UI."""
     status = {
@@ -159,6 +185,14 @@ class Plugin:
     async def toolchain_info(self) -> dict:
         """Return toolchain info."""
         return toolchain_info()
+
+    async def debug_status(self) -> dict:
+        """Return headless debug dependency status."""
+        return debug_status()
+
+    async def configure_debug(self) -> dict:
+        """Configure headless debug dependencies on the Deck."""
+        return configure_debug()
 
 
 # ── Entry point ──────────────────────────────────────────────────────────────
