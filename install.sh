@@ -2,7 +2,7 @@
 # DevKitPro-Deck installer — installs the Decky plugin.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/linuxkafe/deck-devkitpro/main/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/linuxkafe/deck-3dsdevkit/main/install.sh | sh
 #
 # Options (env):
 #   DKP_DECK_BRANCH     git ref to install (default: main)
@@ -10,7 +10,7 @@
 
 set -eu
 
-REPO="linuxkafe/deck-devkitpro"
+REPO="linuxkafe/deck-3dsdevkit"
 BRANCH="${DKP_DECK_BRANCH:-main}"
 PLUGIN_NAME="devkitpro-deck"
 PLUGIN_VERSION="0.1.0"

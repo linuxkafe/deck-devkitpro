@@ -1,7 +1,7 @@
 # DevKitPro Deck
 
-[![](https://img.shields.io/github/stars/linuxkafe/deck-devkitpro.svg?style=social)](https://github.com/linuxkafe/deck-devkitpro)
-[![CI](https://github.com/linuxkafe/deck-devkitpro/actions/workflows/ci.yml/badge.svg)](https://github.com/linuxkafe/deck-devkitpro/actions)
+[![](https://img.shields.io/github/stars/linuxkafe/deck-3dsdevkit.svg?style=social)](https://github.com/linuxkafe/deck-3dsdevkit)
+[![CI](https://github.com/linuxkafe/deck-3dsdevkit/actions/workflows/ci.yml/badge.svg)](https://github.com/linuxkafe/deck-3dsdevkit/actions)
 
 [Decky Loader](https://decky.xyz) plugin to control the **devkitpro** toolchain
 on the Steam Deck. devkitpro runs inside a rootless podman container and
@@ -43,8 +43,10 @@ Steam Deck (deck@steamdeck)
 ### Quick
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/linuxkafe/deck-devkitpro/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/linuxkafe/deck-3dsdevkit/main/install.sh | sh
 ```
+
+[GitHub repository →](https://github.com/linuxkafe/deck-3dsdevkit)
 
 The installer downloads the plugin, installs it to the Decky plugins directory,
 and restarts the plugin loader.
@@ -53,8 +55,8 @@ and restarts the plugin loader.
 
 ```bash
 # Clone and copy
-git clone https://github.com/linuxkafe/deck-devkitpro.git
-sudo cp -r deck-devkitpro /home/deck/homebrew/plugins/devkitpro-deck
+git clone https://github.com/linuxkafe/deck-3dsdevkit.git
+sudo cp -r deck-3dsdevkit /home/deck/homebrew/plugins/devkitpro-deck
 # Restart Decky (Settings > Reload)
 ```
 

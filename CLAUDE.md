@@ -1,4 +1,4 @@
-# deck-devkitpro — Operational Contract
+# deck-3dsdevkit — Operational Contract
 
 This file is the operational contract for AI agents working on this project.
 It is the first file an agent must read. It defines scope, boundaries, and evidence rules.
