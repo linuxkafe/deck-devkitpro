@@ -11,7 +11,7 @@
 set -eu
 
 REPO="linuxkafe/deck-3dsdevkit"
-BRANCH="${DKP_DECK_BRANCH:-main}"
+BRANCH="${DKP_DECK_BRANCH:-master}"
 PLUGIN_NAME="devkitpro-deck"
 PLUGIN_VERSION="0.1.0"
 
